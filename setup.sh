@@ -1,4 +1,18 @@
 #/bin/bash
+COIN_NAME='akikcoin'
+COIN_DAEMON='akikcoind'
+COIN_CLI='akikcoin-cli'
+COIN_QT='akikcoin-qt'
+COIN_TX='akikcoin-tx'
+CONFIG_FILE='akikcoin.conf'
+COIN_TGZ='https://github.com/akikblockchain/akikcoin/releases/download/v1.0/akikcoin_ubuntu16.04.zip'
+COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
+CONF_DIR=~/.$COIN_NAME_$ALIAS
+COIN_PORT=19532
+
+
+
+
 
 cd ~
 echo "****************************************************************************"
@@ -50,30 +64,27 @@ echo "/swapfile none swap sw 0 0" >> /etc/fstab
 
 fi
  
-  wget https://github.com/Streamies/Streamies/releases/download/v2.4.1/Streamies-v2.4.1-x86_64-pc-linux-gnu.zip
+  wget -d $COIN_TGZ
   
-  export fileid=1gGiqVkJRDvPmhY_5v3_mlcIq617T1euB
-  export filename=bootstrap.zip
-  wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
-     | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
+  #export fileid=1gGiqVkJRDvPmhY_5v3_mlcIq617T1euB
+  #export filename=bootstrap.zip
+  #wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
+  #   | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
 
-  wget --load-cookies cookies.txt -O $filename \
-     'https://docs.google.com/uc?export=download&id='$fileid'&confirm='$(<confirm.txt)
-  unzip Streamies-v2.4.1-x86_64-pc-linux-gnu.zip
+  #wget --load-cookies cookies.txt -O $filename \
+  #   'https://docs.google.com/uc?export=download&id='$fileid'&confirm='$(<confirm.txt)
+  unzip $COIN_ZIP
   
-  chmod +x streamiesd
-  chmod +x streamies-cli
-  sudo cp  streamiesd /usr/local/bin
-  sudo cp  streamies-cli /usr/local/bin
-  rm -rf Streamies-v2.4.1-x86_64-pc-linux-gnu.zip
-  rm -rf streamies-cli
-  rm -rf streamiesd
-  rm -rf streamies-tx
-  rm -rf streamies-qt
-  rm -rf streamiesd.1
-  rm -rf streamies-cli.1
-  rm -rf streamies-tx.1
-  rm -rf streamies-qt.1
+  chmod +x $COIN_DAEMON
+  chmod +x $COIN_CLI
+  sudo cp  $COIN_DAEMON /usr/local/bin
+  sudo cp  $COIN_CLI /usr/local/bin
+  rm -rf $COIN_ZIP
+  rm -rf $COIN_CLI
+  rm -rf $COIN_DAEMON
+  rm -rf $COIN_TX
+  rm -rf $COIN_QT
+ 
   
   sudo apt install -y ufw
   sudo ufw allow ssh/tcp
@@ -116,61 +127,60 @@ for i in `seq 1 1 $MNCOUNT`; do
   echo "The RPC port is $RPCPORT"
 
   ALIAS=${ALIAS}
-  CONF_DIR=~/.streamies_$ALIAS
+  CONF_DIR=~/.$COIN_NAME_$ALIAS
 
   # Create scripts
-  echo '#!/bin/bash' > ~/bin/streamiesd_$ALIAS.sh
-  echo "streamiesd -daemon -conf=$CONF_DIR/streamies.conf -datadir=$CONF_DIR "'$*' >> ~/bin/streamiesd_$ALIAS.sh
-  echo '#!/bin/bash' > ~/bin/streamies-cli_$ALIAS.sh
-  echo "streamies-cli -conf=$CONF_DIR/streamies.conf -datadir=$CONF_DIR "'$*' >> ~/bin/streamies-cli_$ALIAS.sh
-  echo '#!/bin/bash' > ~/bin/streamies-tx_$ALIAS.sh
-  echo "streamies-tx -conf=$CONF_DIR/streamies.conf -datadir=$CONF_DIR "'$*' >> ~/bin/streamies-tx_$ALIAS.sh 
-  chmod 755 ~/bin/streamies*.sh
+  echo '#!/bin/bash' > ~/bin/$COIN_DAEMON_$ALIAS.sh
+  echo "$COIN_DAEMON -daemon -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR "'$*' >> ~/bin/$COIN_DAEMON_$ALIAS.sh
+  echo '#!/bin/bash' > ~/bin/$COIN_CLI_$ALIAS.sh
+  echo "$COIN_CLI -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR "'$*' >> ~/bin/$COIN_CLI_$ALIAS.sh
+  
+  chmod 755 ~/bin/$COIN_NAME*.sh
 
   mkdir -p $CONF_DIR
-  unzip  bootstrap.zip -d $CONF_DIR
-  echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> streamies.conf_TEMP
-  echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> streamies.conf_TEMP
-  echo "rpcallowip=127.0.0.1" >> streamies.conf_TEMP
-  echo "rpcport=$RPCPORT" >> streamies.conf_TEMP
-  echo "listen=1" >> streamies.conf_TEMP
-  echo "server=1" >> streamies.conf_TEMP
-  echo "daemon=1" >> streamies.conf_TEMP
-  echo "logtimestamps=1" >> streamies.conf_TEMP
-  echo "maxconnections=256" >> streamies.conf_TEMP
-  echo "masternode=1" >> streamies.conf_TEMP
-  echo "" >> streamies.conf_TEMP
+  #unzip  bootstrap.zip -d $CONF_DIR
+  echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> $CONFIG_FILE_TEMP
+  echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> $CONFIG_FILE_TEMP
+  echo "rpcallowip=127.0.0.1" >> $CONFIG_FILE_TEMP
+  echo "rpcport=$RPCPORT" >> $CONFIG_FILE_TEMP
+  echo "listen=1" >> $CONFIG_FILE_TEMP
+  echo "server=1" >> $CONFIG_FILE_TEMP
+  echo "daemon=1" >> $CONFIG_FILE_TEMP
+  echo "logtimestamps=1" >> $CONFIG_FILE_TEMP
+  echo "maxconnections=256" >> $CONFIG_FILE_TEMP
+  echo "masternode=1" >> $CONFIG_FILE_TEMP
+  echo "" >> $CONFIG_FILE_TEMP
 
-  echo "" >> streamies.conf_TEMP
-  echo "port=$PORT" >> streamies.conf_TEMP
-  echo "masternodeaddr=$IP:55297" >> streamies.conf_TEMP
-  echo "masternodeprivkey=$PRIVKEY" >> streamies.conf_TEMP
-  echo "addnode=172.105.62.134" >> streamies.conf_TEMP
-  echo "addnode=172.86.75.178" >> streamies.conf_TEMP
-  echo "addnode=172.86.75.16" >> streamies.conf_TEMP
-  echo "addnode=172.86.75.176" >> streamies.conf_TEMP
-  echo "addnode=45.76.83.165:55297" >> streamies.conf_TEMP
-  echo "addnode=145.129.129.109:55297" >> streamies.conf_TEMP
-  echo "addnode=174.86.28.8:55297" >> streamies.conf_TEMP
-  echo "addnode=95.179.246.187:55297" >> streamies.conf_TEMP
+  echo "" >> $CONFIG_FILE_TEMP
+  echo "port=$PORT" >> $CONFIG_FILE_TEMP
+  echo "masternodeaddr=$IP:$COIN_PORT" >> $CONFIG_FILE_TEMP
+  echo "masternodeprivkey=$PRIVKEY" >> $CONFIG_FILE_TEMP
+  echo "addnode=149.28.141.28" >> $CONFIG_FILE_TEMP
+  echo "addnode=45.77.41.234" >> $CONFIG_FILE_TEMP
+  echo "addnode=95.217.140.128" >> $CONFIG_FILE_TEMP
+  echo "addnode=95.217.140.129" >> $CONFIG_FILE_TEMP
+  echo "addnode=95.217.140.130" >> $CONFIG_FILE_TEMP
+  echo "addnode=95.217.140.131" >> $CONFIG_FILE_TEMP
+  echo "addnode=95.217.140.132" >> $CONFIG_FILE_TEMP
+  
 
   
   sudo ufw allow $PORT/tcp
 
-  mv streamies.conf_TEMP $CONF_DIR/streamies.conf
+  mv $CONFIG_FILE_TEMP $CONF_DIR/$CONFIG_FILE
   
   #sh ~/bin/iond_$ALIAS.sh
   
-  cat << EOF > /etc/systemd/system/streamies_$ALIAS.service
+  cat << EOF > /etc/systemd/system/$COIN_NAME_$ALIAS.service
 [Unit]
-Description=streamies_$ALIAS service
+Description=$COIN_NAME_$ALIAS service
 After=network.target
 [Service]
 User=root
 Group=root
 Type=forking
-ExecStart=/usr/local/bin/streamiesd -daemon -conf=$CONF_DIR/streamies.conf -datadir=$CONF_DIR
-ExecStop=/usr/local/bin/streamies-cli -conf=$CONF_DIR/streamies.conf -datadir=$CONF_DIR stop
+ExecStart=/usr/local/bin/$COIN_DAEMON -daemon -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR
+ExecStop=/usr/local/bin/$CONFIG_CLI -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR stop
 Restart=always
 PrivateTmp=true
 TimeoutStartSec=10m
@@ -181,8 +191,8 @@ EOF
 
   systemctl daemon-reload
   sleep 10
-  systemctl start streamies_$ALIAS.service
-  systemctl enable streamies_$ALIAS.service >/dev/null 2>&1
+  systemctl start $COIN_NAME_$ALIAS.service
+  systemctl enable $COIN_NAME_$ALIAS.service >/dev/null 2>&1
  
   rm -rf setup.sh
 
