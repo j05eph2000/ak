@@ -1,18 +1,4 @@
 #/bin/bash
-COINNAME='akikcoin'
-COIN_DAEMON='akikcoind'
-COIN_CLI='akikcoin-cli'
-COIN_QT='akikcoin-qt'
-COIN_TX='akikcoin-tx'
-CONFIG_FILE='akikcoin.conf'
-COIN_TGZ='https://github.com/akikblockchain/akikcoin/releases/download/v1.0/akikcoin_ubuntu16.04.zip'
-COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
-
-COIN_PORT=19532
-
-
-
-
 
 cd ~
 echo "****************************************************************************"
@@ -64,27 +50,27 @@ echo "/swapfile none swap sw 0 0" >> /etc/fstab
 
 fi
  
-  wget -d $COIN_TGZ
+  wget https://github.com/akikblockchain/akikcoin/releases/download/v1.0/akikcoin_ubuntu16.04.zip
   
   #export fileid=1gGiqVkJRDvPmhY_5v3_mlcIq617T1euB
   #export filename=bootstrap.zip
   #wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
   #   | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
-
+#
   #wget --load-cookies cookies.txt -O $filename \
   #   'https://docs.google.com/uc?export=download&id='$fileid'&confirm='$(<confirm.txt)
-  unzip $COIN_ZIP
+  unzip akikcoin_ubuntu16.04.zip
   
-  chmod +x $COIN_DAEMON
-  chmod +x $COIN_CLI
-  sudo cp  $COIN_DAEMON /usr/local/bin
-  sudo cp  $COIN_CLI /usr/local/bin
-  rm -rf $COIN_ZIP
-  rm -rf $COIN_CLI
-  rm -rf $COIN_DAEMON
-  rm -rf $COIN_TX
-  rm -rf $COIN_QT
- 
+  chmod +x akikcoind
+  chmod +x akikcoin-cli
+  sudo cp  akikcoind /usr/local/bin
+  sudo cp  akikcoin-cli /usr/local/bin
+  rm -rf akikcoin_ubuntu16.04.zip
+  rm -rf akikcoin-cli
+  rm -rf akikcoind
+  rm -rf akikcoin-tx
+  rm -rf akikcoin-qt
+  
   
   sudo apt install -y ufw
   sudo ufw allow ssh/tcp
@@ -131,44 +117,43 @@ for i in `seq 1 1 $MNCOUNT`; do
 
   # Create scripts
   echo '#!/bin/bash' > ~/bin/akikcoind_$ALIAS.sh
-  echo "$COIN_DAEMON -daemon -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR "'$*' >> ~/bin/akikcoind_$ALIAS.sh
+  echo "akikcoind -daemon -conf=$CONF_DIR/akikcoin.conf -datadir=$CONF_DIR "'$*' >> ~/bin/akikcoind_$ALIAS.sh
   echo '#!/bin/bash' > ~/bin/akikcoin-cli_$ALIAS.sh
-  echo "$COIN_CLI -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR "'$*' >> ~/bin/akikcoin-cli_$ALIAS.sh
+  echo "akikcoin-cli -conf=$CONF_DIR/akikcoin.conf -datadir=$CONF_DIR "'$*' >> ~/bin/akikcoin-cli_$ALIAS.sh
   
-  chmod 755 ~/bin/akikcoind_$ALIAS.sh
-  chmod 755 ~/bin/akikcoin-cli_$ALIAS.sh
+  chmod 755 ~/bin/akikcoin*.sh
 
   mkdir -p $CONF_DIR
   #unzip  bootstrap.zip -d $CONF_DIR
-  echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> COIN_TEMP
-  echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> COIN_TEMP
-  echo "rpcallowip=127.0.0.1" >> COIN_TEMP
-  echo "rpcport=$RPCPORT" >> COIN_TEMP
-  echo "listen=1" >> COIN_TEMP
-  echo "server=1" >> COIN_TEMP
-  echo "daemon=1" >> COIN_TEMP
-  echo "logtimestamps=1" >> COIN_TEMP
-  echo "maxconnections=256" >> COIN_TEMP
-  echo "masternode=1" >> COIN_TEMP
-  echo "" >> COIN_TEMP
+  echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> akikcoin.conf_TEMP
+  echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> akikcoin.conf_TEMP
+  echo "rpcallowip=127.0.0.1" >> akikcoin.conf_TEMP
+  echo "rpcport=$RPCPORT" >> akikcoin.conf_TEMP
+  echo "listen=1" >> akikcoin.conf_TEMP
+  echo "server=1" >> akikcoin.conf_TEMP
+  echo "daemon=1" >> akikcoin.conf_TEMP
+  echo "logtimestamps=1" >> akikcoin.conf_TEMP
+  echo "maxconnections=256" >> akikcoin.conf_TEMP
+  echo "masternode=1" >> akikcoin.conf_TEMP
+  echo "" >> akikcoin.conf_TEMP
 
-  echo "" >> COIN_TEMP
-  echo "port=$PORT" >> COIN_TEMP
-  echo "masternodeaddr=$IP:$COIN_PORT" >> COIN_TEMP
-  echo "masternodeprivkey=$PRIVKEY" >> COIN_TEMP
-  echo "addnode=149.28.141.28" >> COIN_TEMP
-  echo "addnode=45.77.41.234" >> COIN_TEMP
-  echo "addnode=95.217.140.128" >> COIN_TEMP
-  echo "addnode=95.217.140.129" >> COIN_TEMP
-  echo "addnode=95.217.140.130" >> COIN_TEMP
-  echo "addnode=95.217.140.131" >> COIN_TEMP
-  echo "addnode=95.217.140.132" >> COIN_TEMP
+  echo "" >> akikcoin.conf_TEMP
+  echo "port=$PORT" >> akikcoin.conf_TEMP
+  echo "masternodeaddr=$IP:19532" >> akikcoin.conf_TEMP
+  echo "masternodeprivkey=$PRIVKEY" >> akikcoin.conf_TEMP
+  echo "addnode=149.28.141.28" >> akikcoin.conf_TEMP
+  echo "addnode=45.77.41.234" >> akikcoin.conf_TEMP
+  echo "addnode=95.217.140.128" >> akikcoin.conf_TEMP
+  echo "addnode=95.217.140.129" >> akikcoin.conf_TEMP
+  echo "addnode=95.217.140.130" >> akikcoin.conf_TEMP
+  echo "addnode=95.217.140.131" >> akikcoin.conf_TEMP
+  echo "addnode=95.217.140.132" >> akikcoin.conf_TEMP
   
 
   
   sudo ufw allow $PORT/tcp
 
-  mv COIN_TEMP $CONF_DIR/$CONFIG_FILE
+  mv akikcoin.conf_TEMP $CONF_DIR/akikcoin.conf
   
   #sh ~/bin/iond_$ALIAS.sh
   
@@ -194,7 +179,6 @@ EOF
   sleep 10
   systemctl start akikcoin_$ALIAS.service
   systemctl enable akikcoin_$ALIAS.service >/dev/null 2>&1
- 
  
   rm -rf setup.sh
 
