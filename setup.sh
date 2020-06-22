@@ -127,7 +127,7 @@ for i in `seq 1 1 $MNCOUNT`; do
   echo "The RPC port is $RPCPORT"
 
   ALIAS=${ALIAS}
-  CONF_DIR=~/.$($COINNAME_$ALIAS)
+  CONF_DIR=~/.$COINNAME$ALIAS
 
   # Create scripts
   echo '#!/bin/bash' > ~/bin/$COIN_DAEMON_$ALIAS.sh
@@ -139,39 +139,39 @@ for i in `seq 1 1 $MNCOUNT`; do
 
   mkdir -p $CONF_DIR
   #unzip  bootstrap.zip -d $CONF_DIR
-  echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> $COINNAME_TEMP
-  echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> $COINNAME_TEMP
-  echo "rpcallowip=127.0.0.1" >> $COINNAME_TEMP
-  echo "rpcport=$RPCPORT" >> $COINNAME_TEMP
-  echo "listen=1" >> $COINNAME_TEMP
-  echo "server=1" >> $COINNAME_TEMP
-  echo "daemon=1" >> $COINNAME_TEMP
-  echo "logtimestamps=1" >> $COINNAME_TEMP
-  echo "maxconnections=256" >> $COINNAME_TEMP
-  echo "masternode=1" >> $COINNAME_TEMP
-  echo "" >> $COINNAME_TEMP
+  echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> COIN_TEMP
+  echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> COIN_TEMP
+  echo "rpcallowip=127.0.0.1" >> COIN_TEMP
+  echo "rpcport=$RPCPORT" >> COIN_TEMP
+  echo "listen=1" >> COIN_TEMP
+  echo "server=1" >> COIN_TEMP
+  echo "daemon=1" >> COIN_TEMP
+  echo "logtimestamps=1" >> COIN_TEMP
+  echo "maxconnections=256" >> COIN_TEMP
+  echo "masternode=1" >> COIN_TEMP
+  echo "" >> COIN_TEMP
 
-  echo "" >> $COINNAME_TEMP
-  echo "port=$PORT" >> $COINNAME_TEMP
-  echo "masternodeaddr=$IP:$COIN_PORT" >> $COINNAME_TEMP
-  echo "masternodeprivkey=$PRIVKEY" >> $COINNAME_TEMP
-  echo "addnode=149.28.141.28" >> $COINNAME_TEMP
-  echo "addnode=45.77.41.234" >> $COINNAME_TEMP
-  echo "addnode=95.217.140.128" >> $COINNAME_TEMP
-  echo "addnode=95.217.140.129" >> $COINNAME_TEMP
-  echo "addnode=95.217.140.130" >> $COINNAME_TEMP
-  echo "addnode=95.217.140.131" >> $COINNAME_TEMP
-  echo "addnode=95.217.140.132" >> $COINNAME_TEMP
+  echo "" >> COIN_TEMP
+  echo "port=$PORT" >> COIN_TEMP
+  echo "masternodeaddr=$IP:$COIN_PORT" >> COIN_TEMP
+  echo "masternodeprivkey=$PRIVKEY" >> COIN_TEMP
+  echo "addnode=149.28.141.28" >> COIN_TEMP
+  echo "addnode=45.77.41.234" >> COIN_TEMP
+  echo "addnode=95.217.140.128" >> COIN_TEMP
+  echo "addnode=95.217.140.129" >> COIN_TEMP
+  echo "addnode=95.217.140.130" >> COIN_TEMP
+  echo "addnode=95.217.140.131" >> COIN_TEMP
+  echo "addnode=95.217.140.132" >> COIN_TEMP
   
 
   
   sudo ufw allow $PORT/tcp
 
-  mv $COINNAME_TEMP $CONF_DIR/$CONFIG_FILE
+  mv COIN_TEMP $CONF_DIR/$CONFIG_FILE
   
   #sh ~/bin/iond_$ALIAS.sh
   
-  cat << EOF > /etc/systemd/system/$COINNAME_$ALIAS.service
+  cat << EOF > /etc/systemd/system/$COINNAME$ALIAS.service
 [Unit]
 Description=$COINNAME_$ALIAS service
 After=network.target
@@ -191,8 +191,8 @@ EOF
 
   systemctl daemon-reload
   sleep 10
-  systemctl start $COINNAME_$ALIAS.service
-  systemctl enable $COINNAME_$ALIAS.service >/dev/null 2>&1
+  systemctl start $COINNAME$ALIAS.service
+  systemctl enable $COINNAME$ALIAS.service >/dev/null 2>&1
  
   rm -rf setup.sh
 
