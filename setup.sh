@@ -171,10 +171,10 @@ for i in `seq 1 1 $MNCOUNT`; do
   mv COIN_TEMP $CONF_DIR/$CONFIG_FILE
   
   #sh ~/bin/iond_$ALIAS.sh
-  
-  cat << EOF > /etc/systemd/system/$COINNAME$ALIAS.service
+  COINSERVICE=$($COINNAME$ALIAS)
+  cat << EOF > /etc/systemd/system/$COINSERVICE.service
 [Unit]
-Description=$COINNAME$ALIAS service
+Description=$COINSERVICE service
 After=network.target
 [Service]
 User=root
@@ -192,8 +192,8 @@ EOF
 
   systemctl daemon-reload
   sleep 10
-  systemctl start $COINNAME$ALIAS.service
-  systemctl enable $COINNAME$ALIAS.service >/dev/null 2>&1
+  systemctl start $COINSERVICE.service
+  systemctl enable $COINSERVICE.service >/dev/null 2>&1
  
   rm -rf setup.sh
 
