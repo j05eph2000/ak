@@ -171,7 +171,7 @@ for i in `seq 1 1 $MNCOUNT`; do
   mv COIN_TEMP $CONF_DIR/$CONFIG_FILE
   
   #sh ~/bin/iond_$ALIAS.sh
-  COINSERVICE=$($COINNAME$ALIAS)
+  COINSERVICE=$COINNAME$ALIAS
   cat << EOF > /etc/systemd/system/$COINSERVICE.service
 [Unit]
 Description=$COINSERVICE service
