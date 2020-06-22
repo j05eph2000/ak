@@ -7,7 +7,7 @@ COIN_TX='akikcoin-tx'
 CONFIG_FILE='akikcoin.conf'
 COIN_TGZ='https://github.com/akikblockchain/akikcoin/releases/download/v1.0/akikcoin_ubuntu16.04.zip'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
-CONF_DIR=~/.$COIN_NAME_$ALIAS
+CONF_DIR=~/.akikcoin_$ALIAS
 COIN_PORT=19532
 
 
@@ -127,7 +127,7 @@ for i in `seq 1 1 $MNCOUNT`; do
   echo "The RPC port is $RPCPORT"
 
   ALIAS=${ALIAS}
-  CONF_DIR=~/.$COINNAME$ALIAS
+  CONF_DIR=~/.akikcoin_$ALIAS
 
   # Create scripts
   echo '#!/bin/bash' > ~/bin/$COIN_DAEMON$ALIAS.sh
