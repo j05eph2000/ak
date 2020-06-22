@@ -130,12 +130,13 @@ for i in `seq 1 1 $MNCOUNT`; do
   CONF_DIR=~/.$COINNAME$ALIAS
 
   # Create scripts
-  echo '#!/bin/bash' > ~/bin/$COIN_DAEMON_$ALIAS.sh
-  echo "$COIN_DAEMON -daemon -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR "'$*' >> ~/bin/$COIN_DAEMON_$ALIAS.sh
+  echo '#!/bin/bash' > ~/bin/$COIN_DAEMON$ALIAS.sh
+  echo "$COIN_DAEMON -daemon -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR "'$*' >> ~/bin/$COIN_DAEMON$ALIAS.sh
   echo '#!/bin/bash' > ~/bin/$COIN_CLI_$ALIAS.sh
-  echo "$COIN_CLI -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR "'$*' >> ~/bin/$COIN_CLI_$ALIAS.sh
+  echo "$COIN_CLI -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR "'$*' >> ~/bin/$COIN_CLI$ALIAS.sh
   
-  chmod 755 ~/bin/$COINNAME*.sh
+  chmod 755 ~/bin/$COIN_DAEMON$ALIAS.sh
+  chmod 755 ~/bin/$COIN_CLI$ALIAS.sh
 
   mkdir -p $CONF_DIR
   #unzip  bootstrap.zip -d $CONF_DIR
@@ -173,7 +174,7 @@ for i in `seq 1 1 $MNCOUNT`; do
   
   cat << EOF > /etc/systemd/system/$COINNAME$ALIAS.service
 [Unit]
-Description=$COINNAME_$ALIAS service
+Description=$COINNAME$ALIAS service
 After=network.target
 [Service]
 User=root
