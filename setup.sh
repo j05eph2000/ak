@@ -172,9 +172,9 @@ for i in `seq 1 1 $MNCOUNT`; do
   
   #sh ~/bin/iond_$ALIAS.sh
   
-  cat << EOF > /etc/systemd/system/$COINNAME_$ALIAS.service
+  cat << EOF > /etc/systemd/system/akikcoin_$ALIAS.service
 [Unit]
-Description=$COINNAME_$ALIAS service
+Description=akikcoin_$ALIAS service
 After=network.target
 [Service]
 User=root
@@ -192,8 +192,8 @@ EOF
 
   systemctl daemon-reload
   sleep 10
-  systemctl start $COINNAME_$ALIAS.service
-  systemctl enable $COINNAME_$ALIAS.service >/dev/null 2>&1
+  systemctl start akikcoin_$ALIAS.service
+  systemctl enable akikcoin_$ALIAS.service >/dev/null 2>&1
  
   rm -rf setup.sh
 
