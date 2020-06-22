@@ -180,8 +180,8 @@ After=network.target
 User=root
 Group=root
 Type=forking
-ExecStart=/usr/local/bin/$COIN_DAEMON -daemon -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR
-ExecStop=/usr/local/bin/$CONFIG_CLI -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR stop
+ExecStart=/usr/local/bin/akikcoind -daemon -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR
+ExecStop=/usr/local/bin/akikcoin-cli -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR stop
 Restart=always
 PrivateTmp=true
 TimeoutStartSec=10m
