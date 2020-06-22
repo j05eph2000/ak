@@ -1,5 +1,5 @@
 #/bin/bash
-COIN_NAME='akikcoin'
+COINNAME='akikcoin'
 COIN_DAEMON='akikcoind'
 COIN_CLI='akikcoin-cli'
 COIN_QT='akikcoin-qt'
@@ -127,7 +127,7 @@ for i in `seq 1 1 $MNCOUNT`; do
   echo "The RPC port is $RPCPORT"
 
   ALIAS=${ALIAS}
-  CONF_DIR=~/.$COIN_NAME_$ALIAS
+  CONF_DIR=~/.$($COINNAME_$ALIAS)
 
   # Create scripts
   echo '#!/bin/bash' > ~/bin/$COIN_DAEMON_$ALIAS.sh
@@ -135,45 +135,45 @@ for i in `seq 1 1 $MNCOUNT`; do
   echo '#!/bin/bash' > ~/bin/$COIN_CLI_$ALIAS.sh
   echo "$COIN_CLI -conf=$CONF_DIR/$CONFIG_FILE -datadir=$CONF_DIR "'$*' >> ~/bin/$COIN_CLI_$ALIAS.sh
   
-  chmod 755 ~/bin/$COIN_NAME*.sh
+  chmod 755 ~/bin/$COINNAME*.sh
 
   mkdir -p $CONF_DIR
   #unzip  bootstrap.zip -d $CONF_DIR
-  echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> $CONFIG_FILE_TEMP
-  echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> $CONFIG_FILE_TEMP
-  echo "rpcallowip=127.0.0.1" >> $CONFIG_FILE_TEMP
-  echo "rpcport=$RPCPORT" >> $CONFIG_FILE_TEMP
-  echo "listen=1" >> $CONFIG_FILE_TEMP
-  echo "server=1" >> $CONFIG_FILE_TEMP
-  echo "daemon=1" >> $CONFIG_FILE_TEMP
-  echo "logtimestamps=1" >> $CONFIG_FILE_TEMP
-  echo "maxconnections=256" >> $CONFIG_FILE_TEMP
-  echo "masternode=1" >> $CONFIG_FILE_TEMP
-  echo "" >> $CONFIG_FILE_TEMP
+  echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> $COINNAME_TEMP
+  echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> $COINNAME_TEMP
+  echo "rpcallowip=127.0.0.1" >> $COINNAME_TEMP
+  echo "rpcport=$RPCPORT" >> $COINNAME_TEMP
+  echo "listen=1" >> $COINNAME_TEMP
+  echo "server=1" >> $COINNAME_TEMP
+  echo "daemon=1" >> $COINNAME_TEMP
+  echo "logtimestamps=1" >> $COINNAME_TEMP
+  echo "maxconnections=256" >> $COINNAME_TEMP
+  echo "masternode=1" >> $COINNAME_TEMP
+  echo "" >> $COINNAME_TEMP
 
-  echo "" >> $CONFIG_FILE_TEMP
-  echo "port=$PORT" >> $CONFIG_FILE_TEMP
-  echo "masternodeaddr=$IP:$COIN_PORT" >> $CONFIG_FILE_TEMP
-  echo "masternodeprivkey=$PRIVKEY" >> $CONFIG_FILE_TEMP
-  echo "addnode=149.28.141.28" >> $CONFIG_FILE_TEMP
-  echo "addnode=45.77.41.234" >> $CONFIG_FILE_TEMP
-  echo "addnode=95.217.140.128" >> $CONFIG_FILE_TEMP
-  echo "addnode=95.217.140.129" >> $CONFIG_FILE_TEMP
-  echo "addnode=95.217.140.130" >> $CONFIG_FILE_TEMP
-  echo "addnode=95.217.140.131" >> $CONFIG_FILE_TEMP
-  echo "addnode=95.217.140.132" >> $CONFIG_FILE_TEMP
+  echo "" >> $COINNAME_TEMP
+  echo "port=$PORT" >> $COINNAME_TEMP
+  echo "masternodeaddr=$IP:$COIN_PORT" >> $COINNAME_TEMP
+  echo "masternodeprivkey=$PRIVKEY" >> $COINNAME_TEMP
+  echo "addnode=149.28.141.28" >> $COINNAME_TEMP
+  echo "addnode=45.77.41.234" >> $COINNAME_TEMP
+  echo "addnode=95.217.140.128" >> $COINNAME_TEMP
+  echo "addnode=95.217.140.129" >> $COINNAME_TEMP
+  echo "addnode=95.217.140.130" >> $COINNAME_TEMP
+  echo "addnode=95.217.140.131" >> $COINNAME_TEMP
+  echo "addnode=95.217.140.132" >> $COINNAME_TEMP
   
 
   
   sudo ufw allow $PORT/tcp
 
-  mv $CONFIG_FILE_TEMP $CONF_DIR/$CONFIG_FILE
+  mv $COINNAME_TEMP $CONF_DIR/$CONFIG_FILE
   
   #sh ~/bin/iond_$ALIAS.sh
   
-  cat << EOF > /etc/systemd/system/$COIN_NAME_$ALIAS.service
+  cat << EOF > /etc/systemd/system/$COINNAME_$ALIAS.service
 [Unit]
-Description=$COIN_NAME_$ALIAS service
+Description=$COINNAME_$ALIAS service
 After=network.target
 [Service]
 User=root
@@ -191,8 +191,8 @@ EOF
 
   systemctl daemon-reload
   sleep 10
-  systemctl start $COIN_NAME_$ALIAS.service
-  systemctl enable $COIN_NAME_$ALIAS.service >/dev/null 2>&1
+  systemctl start $COINNAME_$ALIAS.service
+  systemctl enable $COINNAME_$ALIAS.service >/dev/null 2>&1
  
   rm -rf setup.sh
 
