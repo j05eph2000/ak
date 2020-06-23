@@ -184,7 +184,7 @@ EOF
 
   systemctl daemon-reload
   sleep 10
-  mv COIN_TEMP $CONF_DIR/$CONFIG_FILE
+  
   systemctl start $COINNAME$ALIAS.service
   systemctl enable $COINNAME$ALIAS.service >/dev/null 2>&1
 
