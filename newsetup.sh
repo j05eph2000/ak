@@ -89,6 +89,26 @@ fi
 
   sudo apt install -y ufw
   sudo ufw allow ssh/tcp
+  sudo ufw limit ssh/tcp
+  sudo ufw logging on
+  echo "y" | sudo ufw enable
+  sudo ufw status
+
+  mkdir -p ~/bin
+  echo 'export PATH=~/bin:$PATH' > ~/.bash_aliases
+  source ~/.bashrc
+
+
+ ## Setup conf
+ IP=$(curl -s4 api.ipify.org)
+ mkdir -p ~/bin
+ echo ""
+ echo "Configure your masternodes now!"
+ echo "Detecting IP address:$IP"
+
+echo ""
+echo "How many nodes do you want to create on this server? [min:1 Max:20]  followed by [ENTER]:"
+read MNCOUNT
   
   
 
