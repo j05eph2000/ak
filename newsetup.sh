@@ -16,7 +16,19 @@ COIN_PORT=19532
 
 cd ~
 echo "****************************************************************************"
+echo "Do you want to install all needed dependencies (no if you did it before)? [y/n]"
+read DOSETUP
 
+if [ $DOSETUP = "y" ]  
+then
+ 
+apt-get update -y
+#DEBIAN_FRONTEND=noninteractive apt-get update 
+#DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade
+apt install -y software-properties-common 
+apt-add-repository -y ppa:bitcoin/bitcoin 
+apt-get update -y
+apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" make software-properties-common \
 build-essential libtool autoconf libssl-dev libboost-dev libboost-chrono-dev libboost-filesystem-dev libboost-program-options-dev \
 libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git wget pwgen curl libdb4.8-dev bsdmainutils libdb4.8++-dev \
 libminiupnpc-dev libgmp3-dev ufw pkg-config libevent-dev  libdb5.3++ unzip lib32stdc++6 lib32z1 libzmq5
