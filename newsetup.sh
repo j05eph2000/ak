@@ -11,11 +11,22 @@ COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
 COIN_PORT=19532
 
 
-
-
+#/bin/bash
 
 cd ~
 echo "****************************************************************************"
+echo "* Ubuntu 16.04 is the recommended opearting system for this install.       *"
+echo "*                                                                          *"
+echo "* This script will install and configure your Transcendence  masternodes.  *"
+echo "****************************************************************************"
+echo && echo && echo
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo "!                                                 !"
+echo "! Make sure you double check before hitting enter !"
+echo "!                                                 !"
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo && echo && echo
+
 echo "Do you want to install all needed dependencies (no if you did it before)? [y/n]"
 read DOSETUP
 
@@ -33,17 +44,25 @@ build-essential libtool autoconf libssl-dev libboost-dev libboost-chrono-dev lib
 libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git wget pwgen curl libdb4.8-dev bsdmainutils libdb4.8++-dev \
 libminiupnpc-dev libgmp3-dev ufw pkg-config libevent-dev  libdb5.3++ unzip lib32stdc++6 lib32z1 libzmq5
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+
 sudo apt -y install gcc-6
 sudo apt -y install g++-6
+
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6 
 sudo apt -y update
 sudo apt -y upgrade
+
+
+
 fallocate -l 2G /swapfile
 chmod 600 /swapfile
 mkswap /swapfile
 swapon /swapfile
 swapon -s
 echo "/swapfile none swap sw 0 0" >> /etc/fstab
+
+
+
 
 fi
 
