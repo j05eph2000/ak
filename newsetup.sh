@@ -67,14 +67,14 @@ echo "/swapfile none swap sw 0 0" >> /etc/fstab
 fi
 
   wget -d $COIN_TGZ
-  #export fileid=1gGiqVkJRDvPmhY_5v3_mlcIq617T1euB
-  #export filename=bootstrap.zip
-  #wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
-  #   | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
+  export fileid=1r64otaM5DZQOjjJzWLw8lLH8eVE7ArLy
+  export filename=bootstrap.zip
+  wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$fileid -O- \
+     | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
 
-  #
-  #wget --load-cookies cookies.txt -O $filename \
-  #   'https://docs.google.com/uc?export=download&id='$fileid'&confirm='$(<confirm.txt)
+  
+  wget --load-cookies cookies.txt -O $filename \
+     'https://docs.google.com/uc?export=download&id='$fileid'&confirm='$(<confirm.txt)
   unzip $COIN_ZIP
   chmod +x $COIN_DAEMON
   chmod +x $COIN_CLI
@@ -135,7 +135,7 @@ for i in `seq 1 1 $MNCOUNT`; do
   chmod 755 ~/bin/$COIN_DAEMON$ALIAS.sh
   chmod 755 ~/bin/$COIN_CLI$ALIAS.sh
   mkdir -p $CONF_DIR
-  #unzip  bootstrap.zip -d $CONF_DIR
+  unzip  bootstrap.zip -d $CONF_DIR
   echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> $CONFIG_FILE
   echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> $CONFIG_FILE
   echo "rpcallowip=127.0.0.1" >> $CONFIG_FILE
